@@ -102,6 +102,7 @@ class Rt:
                  http_auth: typing.Optional[requests.auth.AuthBase] = None,
                  token: typing.Optional[str] = None,
                  http_timeout: typing.Optional[int] = 20,
+                 cookies: typing.Optional[dict] = {},
                  ) -> None:
         """ API initialization.
 
@@ -112,6 +113,7 @@ class Rt:
                             etc. to be used for authenticating to RT
         :param token: Optional authentication token to be used instead of basic authentication.
         :param http_timeout: HTTP timeout after which a request is aborted.
+        :param cookies: cookies for session.
 
         :raises ValueError: If the specified `url` is invalid.
         """
@@ -141,6 +143,9 @@ class Rt:
             self.session.headers['Authorization'] = f'token {token}'
 
         self.http_timeout = http_timeout
+
+        if cookies is not {}:
+            self.session.cookies = cookies
 
     def __debug_response(self, response: requests.Response) -> None:
         """Output debug information for a given HTTP response."""
